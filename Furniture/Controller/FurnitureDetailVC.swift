@@ -44,15 +44,24 @@ class FurnitureDetailVC: UIViewController, UIImagePickerControllerDelegate, UINa
         
         let alertController = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
-            action in
-            print("User chose camera")
+         alertController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
+                action in imagePickerController.sourceType = .camera
+                self.present(imagePickerController, animated: true, completion: nil)
         })
-        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in print("User chose Photo Library")
+            alertController.addAction(cameraAction)
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
         })
         alertController.addAction(photoLibraryAction)
-        alertController.addAction(cameraAction)
-        alertController.addAction(cancelAction)
+        }
+       
         present(alertController, animated: true, completion: nil)
     }
     
